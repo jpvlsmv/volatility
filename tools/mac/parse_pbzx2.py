@@ -81,7 +81,7 @@ def parse_pbzx(pbzx_path):
 
 def main():
     result = parse_pbzx(sys.argv[1])
-    print "Now xz decompress the .xz chunks, then 'cat' them all together in order into a single new.cpio file"
+    print ("Now xz decompress the .xz chunks, then 'cat' them all together in order into a single new.cpio file")
  
 if __name__ == '__main__':
     main()

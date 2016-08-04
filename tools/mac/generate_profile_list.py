@@ -67,7 +67,7 @@ def parse_dsymutil(data, module):
 
     return sys_map["kernel"]
 
-print "profiles = ["
+print ("profiles = [")
 
 for path in set("."):
     for path, _, files in os.walk(path):
@@ -97,7 +97,7 @@ for path in set("."):
                         else:
                             name = name + "x86"
 
-                        print "[\"%s\", %s, %s, %d]," % (name, data["_version"][0][0], lg, aslr)
+                        print ("[\"%s\", %s, %s, %d]," % (name, data["_version"][0][0], lg, aslr))
 
-print "]"
+print ("]")
 

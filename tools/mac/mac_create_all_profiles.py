@@ -26,7 +26,7 @@ def run_cmd(args, output_file = None):
     @param output_file: the process's stdout should be redirected here
     """
 
-    print "Running command: {0}".format(" ".join(args))
+    print ("Running command: {0}".format(" ".join(args)))
     if output_file:
         stdout_handle = open(output_file, "w")
     else:
@@ -35,7 +35,7 @@ def run_cmd(args, output_file = None):
     p.wait()
     if output_file:
         stdout_handle.close()
-    print "  Retcode: {0}".format(p.returncode)
+    print ("  Retcode: {0}".format(p.returncode))
 
 def generate_profile(temp_dir, volatility_dir, profile_dir, profile):
     """Generate a profile. 
@@ -101,7 +101,7 @@ def generate_profile(temp_dir, volatility_dir, profile_dir, profile):
 
 def main():
     if len(sys.argv) != 5:
-        print "Usage: {0} <kit dir> <temp dir> <vol dir> <profile dir>".format(sys.argv[0])
+        print ("Usage: {0} <kit dir> <temp dir> <vol dir> <profile dir>".format(sys.argv[0]))
         return 
 
     profile_runs = []

@@ -374,19 +374,19 @@ class DWARFParser(object):
 
     def print_output(self):
         self.finalize()
-        print "mac_types = {"
+        print ("mac_types = {")
 
         for t in self.all_vtypes:
-            print "  '%s': [ %#x, {" % (t, self.all_vtypes[t][0])
+            print ("  '%s': [ %#x, {" % (t, self.all_vtypes[t][0]))
             for m in sorted(self.all_vtypes[t][1], key=lambda m: self.all_vtypes[t][1][m][0]):
-                print "    '%s': [%#x, %s]," % (m, self.all_vtypes[t][1][m][0], self.all_vtypes[t][1][m][1])
-            print "}],"
-        print "}"
-        print
-        print "mac_gvars = {"
+                print ("    '%s': [%#x, %s]," % (m, self.all_vtypes[t][1][m][0], self.all_vtypes[t][1][m][1]))
+            print ("}],")
+        print ("}")
+        print()
+        print ("mac_gvars = {")
         for v in sorted(self.all_vars, key=lambda v: self.all_vars[v][0]):
-            print "  '%s': [%#010x, %s]," % (v, self.all_vars[v][0], self.all_vars[v][1])
-        print "}"
+            print ("  '%s': [%#010x, %s]," % (v, self.all_vars[v][0], self.all_vars[v][1]))
+        print ("}")
 
 def parse_dwarf():
 
@@ -477,7 +477,7 @@ def convert_file(mac_file, outfile):
                     break
 
             if not line_wrote:
-                print "State machine broken! level 0! %s" % line
+                print ("State machine broken! level 0! %s" % line)
                 sys.exit(1)
 
         # can either be: new declaration
@@ -547,7 +547,7 @@ def main():
 
     if len(sys.argv) == 3:
 
-        print "converting file"
+        print ("converting file")
         mac_file = open(sys.argv[1], "r")
         outfile = open(sys.argv[2], "w")
         convert_file(mac_file, outfile)

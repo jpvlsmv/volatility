@@ -40,7 +40,7 @@ def main():
     name_index = data['columns'].index('Name')
 
     for row in data['rows']:
-        print row[name_index]
+        print (row[name_index])
 
 if __name__ == "__main__":
     main()
