@@ -89,7 +89,7 @@ class BaseAddressSpace(object):
     def _set_profile(self, profile_name):
         ## Load the required profile
         if profile_name == None:
-            raise ASAssertionError, "You must set a profile!"
+            raise ASAssertionError( "You must set a profile!")
         if profile_name in PROFILES:
             ret = PROFILES[profile_name]
         else:
@@ -98,9 +98,9 @@ class BaseAddressSpace(object):
                 ret = profs[profile_name]()
                 PROFILES[profile_name] = ret
             else:
-                raise ASAssertionError, "Invalid profile " + profile_name + " selected"
+                raise ASAssertionError( "Invalid profile " + profile_name + " selected")
         if not self.is_valid_profile(ret):
-            raise ASAssertionError, "Incompatible profile " + profile_name + " selected"
+            raise ASAssertionError( "Incompatible profile " + profile_name + " selected")
         return ret
 
     def is_valid_profile(self, profile): #pylint: disable-msg=W0613
@@ -115,7 +115,7 @@ class BaseAddressSpace(object):
         if not assertion:
             if error == None:
                 error = "Instantiation failed for unspecified reason"
-            raise ASAssertionError, error
+            raise ASAssertionError( error)
 
     def __eq__(self, other):
         return (self.__class__ == other.__class__ and

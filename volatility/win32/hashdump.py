@@ -63,8 +63,8 @@ antpassword = "NTPASSWORD\0"
 almpassword = "LMPASSWORD\0"
 lmkey = "KGS!@#$%"
 
-empty_lm = "aad3b435b51404eeaad3b435b51404ee".decode('hex')
-empty_nt = "31d6cfe0d16ae931b73c59d7e0c089c0".decode('hex')
+empty_lm = bytes.fromhex("aad3b435b51404eeaad3b435b51404ee")
+empty_nt = bytes.fromhex("31d6cfe0d16ae931b73c59d7e0c089c0")
 
 def str_to_key(s):
     key = []

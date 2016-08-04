@@ -824,12 +824,12 @@ class ShellBags(common.AbstractWindowsCommand):
         regapi = registryapi.RegistryApi(self._config)
         regapi.reset_current()
         #scan for registries and populate them:
-        print "Scanning for registries...."
+        print ("Scanning for registries....")
 
         regapi.set_current('ntuser.dat')
         shellbag_data = []
 
-        print "Gathering shellbag items and building path tree..."
+        print ("Gathering shellbag items and building path tree...")
         seen = {}
         for bk in BAG_KEYS:
             for cat, current_path in regapi.reg_yield_key("ntuser.dat", bk): 

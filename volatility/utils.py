@@ -49,11 +49,11 @@ def load_as(config, astype = 'virtual', **kwargs):
                 debug.debug("Succeeded instantiating {0}".format(base_as))
                 found = True
                 break
-            except addrspace.ASAssertionError, e:
+            except addrspace.ASAssertionError as e:
                 debug.debug("Failed instantiating {0}: {1}".format(cls.__name__, e), 2)
                 error.append_reason(cls.__name__, e)
                 continue
-            except Exception, e:
+            except Exception as e:
                 debug.debug("Failed instantiating (exception): {0}".format(e))
                 error.append_reason(cls.__name__ + " - EXCEPTION", e)
                 continue

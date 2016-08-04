@@ -377,7 +377,7 @@ class Auditpol(common.AbstractWindowsCommand):
             if self._config.HEX:
                 # for now, not sure how to handle hexdump data
                 raw = "\n".join(["{0:010x}: {1:<48}  {2}".format(o, h, ''.join(c)) for o, h, c in utils.Hexdump(data_raw)])
-                print raw
+                print (raw)
 
     def render_text(self, outfd, data):
         for data_raw, ap in data:

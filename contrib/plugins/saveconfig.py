@@ -28,7 +28,7 @@ import volatility.plugins.kdbgscan as kdbgscan
 import volatility.obj as obj
 import volatility.cache as cache
 import volatility.registry as registry
-import ConfigParser
+import configparser as ConfigParser
 
 class SaveConfig(kdbgscan.KDBGScan): # common.AbstractWindowsCommand):
     """Generates Volatility configuration files"""
@@ -63,74 +63,74 @@ class SaveConfig(kdbgscan.KDBGScan): # common.AbstractWindowsCommand):
         ## Where to output the generated configuration file
         self.save_location = self._config.DEST
 
-	## Used if we 'aborted' due to not wanting to overwrite an existing file
-	self.abort = False
+        ## Used if we 'aborted' due to not wanting to overwrite an existing file
+        self.abort = False
 
 
     def calculate(self):
-	## Stop executing if the user did not mean to overwrite the file
-	if os.path.isfile(self.save_location):
-		resp = raw_input("Are you sure you want to overwrite {}? [Y/n] ".format(self.save_location)) 
-		if resp.upper() == 'N':
-			self.abort = True
-			return # Not continuing 
+    ## Stop executing if the user did not mean to overwrite the file
+      if os.path.isfile(self.save_location):
+          resp = raw_input("Are you sure you want to overwrite {}? [Y/n] ".format(self.save_location)) 
+          if resp.upper() == 'N':
+              self.abort = True
+              return # Not continuing 
 
-        ## Read from existing target configuration (if modifying)
-        if self._config.MODIFY:
-            self.new_config.read(self.save_location)
+          ## Read from existing target configuration (if modifying)
+          if self._config.MODIFY:
+              self.new_config.read(self.save_location)
+  
+  
+          ## Attempt to automatically determine profile
+          if self._config.AUTO:
+              print("Determining profile based on KDBG search...")
+              self.suglist = [ s for s, _ in kdbgscan.KDBGScan.calculate(self)]
+              if self.suglist:
+                  self.new_config.set("DEFAULT", "profile", self.suglist[0])
+                  ## Update profile so --offsets will work
+                  self._config.PROFILE = self.suglist[0]
+                  self._exclude_options.append('profile')
+              else:
+                  print("Failed to determine profile")
+  
+          ## Read in current command line (precedence over settings in configs)
+          for key in self._config.opts:
+              if key not in self._exclude_options:
+                  self.new_config.set("DEFAULT", key, self._config.opts[key])
+                  ## Add to excluded list so we do not overwrite them later
+                  self._exclude_options.append(key)
+  
+          ## Save options from configuration files (unless excluded by user)
+          if self._config.EXCLUDE_CONF == False:
+              for key in self._config.cnf_opts:
+                  if key not in self._exclude_options:
+                      self.new_config.set("DEFAULT", key, self._config.cnf_opts[key])
+  
+          ## Get offsets (KDBG and DTB)
+          if self._config.OFFSETS:
+              addr_space = utils.load_as(self._config)
+              kdbg = tasks.get_kdbg(addr_space)
+              self.new_config.set("DEFAULT", "kdbg", str(kdbg.v()))
+              if hasattr(addr_space, "dtb"):
+                  self.new_config.set("DEFAULT", "dtb", str(addr_space.dtb))
+  
+  
+          ## Ensure DTB and KDBG are converted properly at the last moment:
+          ## Note, volatility will convert these to int when read from CNF_OPTS
+          try:
+              kdbg = self.new_config.get("DEFAULT", "kdbg")
+              self.new_config.set("DEFAULT", "kdbg", str(hex(int(kdbg))))
+          except ConfigParser.NoOptionError:
+              pass
+          try:
+              dtb = self.new_config.get("DEFAULT", "dtb")
+              self.new_config.set("DEFAULT", "dtb", str(hex(int(dtb))))
+          except ConfigParser.NoOptionError:
+              pass
 
-
-        ## Attempt to automatically determine profile
-        if self._config.AUTO:
-            print("Determining profile based on KDBG search...")
-            self.suglist = [ s for s, _ in kdbgscan.KDBGScan.calculate(self)]
-            if self.suglist:
-                self.new_config.set("DEFAULT", "profile", self.suglist[0])
-                ## Update profile so --offsets will work
-                self._config.PROFILE = self.suglist[0]
-                self._exclude_options.append('profile')
-            else:
-                print("Failed to determine profile")
-
-        ## Read in current command line (precedence over settings in configs)
-        for key in self._config.opts:
-            if key not in self._exclude_options:
-                self.new_config.set("DEFAULT", key, self._config.opts[key])
-                ## Add to excluded list so we do not overwrite them later
-                self._exclude_options.append(key)
-
-        ## Save options from configuration files (unless excluded by user)
-        if self._config.EXCLUDE_CONF == False:
-            for key in self._config.cnf_opts:
-                if key not in self._exclude_options:
-                    self.new_config.set("DEFAULT", key, self._config.cnf_opts[key])
-
-        ## Get offsets (KDBG and DTB)
-        if self._config.OFFSETS:
-            addr_space = utils.load_as(self._config)
-            kdbg = tasks.get_kdbg(addr_space)
-            self.new_config.set("DEFAULT", "kdbg", str(kdbg.v()))
-            if hasattr(addr_space, "dtb"):
-                self.new_config.set("DEFAULT", "dtb", str(addr_space.dtb))
-
-
-        ## Ensure DTB and KDBG are converted properly at the last moment:
-        ## Note, volatility will convert these to int when read from CNF_OPTS
-        try:
-            kdbg = self.new_config.get("DEFAULT", "kdbg")
-            self.new_config.set("DEFAULT", "kdbg", str(hex(int(kdbg))))
-        except ConfigParser.NoOptionError:
-            pass
-        try:
-            dtb = self.new_config.get("DEFAULT", "dtb")
-            self.new_config.set("DEFAULT", "dtb", str(hex(int(dtb))))
-        except ConfigParser.NoOptionError:
-            pass
-
-
-        ## Write the new configuration file
-        with open(self.save_location, "wb") as configfile:
-            self.new_config.write(configfile)
+  
+          ## Write the new configuration file
+          with open(self.save_location, "wb") as configfile:
+              self.new_config.write(configfile)
 
 
     def max_width(self):
@@ -146,18 +146,18 @@ class SaveConfig(kdbgscan.KDBGScan): # common.AbstractWindowsCommand):
 
     def render_text(self, outfd, data):
         outfd.write("\n")
-	if self.abort:
-		print ("No configuration file created")
-	else:
-        	if len(self.suglist) > 1:
-            		outfd.write("Suggested profiles: {}\n".format(", ".join(self.suglist)))
-        	if self.suglist:
-           		outfd.write("Selected profile: {}\n\n".format(self.suglist[0]))
+        if self.abort:
+            print ("No configuration file created")
+        else:
+            if len(self.suglist) > 1:
+                    outfd.write("Suggested profiles: {}\n".format(", ".join(self.suglist)))
+            if self.suglist:
+                outfd.write("Selected profile: {}\n\n".format(self.suglist[0]))
 
-		print ("Saved configuration options:")
-        	self.table_header(outfd, [("Option", self.max_width()[0]), ("Value", self.max_width()[1])])
-        	## Print out the final saved configuration
-        	for opt, val in self.new_config.items("DEFAULT"):
-            		self.table_row(outfd, opt, val)
-
-        	outfd.write("\nConfiguration saved to {}\n".format(self.save_location))
+                print ("Saved configuration options:")
+                self.table_header(outfd, [("Option", self.max_width()[0]), ("Value", self.max_width()[1])])
+                ## Print out the final saved configuration
+                for opt, val in self.new_config.items("DEFAULT"):
+                        self.table_row(outfd, opt, val)
+    
+                outfd.write("\nConfiguration saved to {}\n".format(self.save_location))

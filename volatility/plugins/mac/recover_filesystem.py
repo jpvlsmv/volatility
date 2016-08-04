@@ -51,7 +51,7 @@ class mac_recover_filesystem(mac_common.AbstractMacCommand):
             ents = path.split("/")
             out_path = os.path.join(self._config.DUMP_DIR, *ents)
 
-            os.chmod(out_path, cnode.c_attr.ca_mode & 00777)
+            os.chmod(out_path, cnode.c_attr.ca_mode & 0o0777)
             os.chown(out_path, cnode.c_attr.ca_uid, cnode.c_attr.ca_gid)
             os.utime(out_path, (cnode.c_attr.ca_atime, cnode.c_attr.ca_mtime))
 

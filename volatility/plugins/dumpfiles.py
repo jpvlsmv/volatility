@@ -804,7 +804,7 @@ class DumpFiles(common.AbstractWindowsCommand):
                     file_re = re.compile(self._config.REGEX, re.I)
                 else:
                     file_re = re.compile(self._config.REGEX)
-            except re.error, e:
+            except re.error as e:
                 debug.error('Error parsing regular expression: {0:s}'.format(e))
 
         # Check to see if a specific physical address was specified for a

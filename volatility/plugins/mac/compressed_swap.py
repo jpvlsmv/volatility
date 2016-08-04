@@ -29,7 +29,7 @@ import volatility.obj as obj
 import volatility.debug as debug
 import volatility.plugins.mac.common as common
 from struct import pack
-import WKdm
+import volatility.plugins.mac.WKdm as WKdm
 
 class mac_compressed_swap(common.AbstractMacCommand):
     """ Prints Mac OS X VM compressor stats and dumps all compressed pages """

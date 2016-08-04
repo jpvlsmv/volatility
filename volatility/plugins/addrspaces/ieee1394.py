@@ -21,15 +21,15 @@
 
 import time
 import volatility.debug as debug
-import urlparse
+from urllib.parse import urlparse
 import volatility.addrspace as addrspace
 
 # TODO: Remove this once we no longer support old/broken versions of urlparse (2.6.2)
-check = urlparse.urlsplit("firewire://method/0")
-urlparse_broken = False
-if check[1] != 'method':
-    urlparse_broken = True
-
+#check = urlparse.urlsplit("firewire://method/0")
+#urlparse_broken = False
+#if check[1] != 'method':
+#    urlparse_broken = True
+#
 def FirewireRW(netloc, location):
     if netloc in fw_implementations:
         return fw_implementations[netloc](location)
@@ -51,7 +51,7 @@ class FWRaw1394(object):
             return True, "Valid"
         except IndexError:
             return False, "Firewire node " + str(self.node) + " on bus " + str(self.bus) + " was not accessible"
-        except IOError, e:
+        except IOError as e:
             return False, "Firewire device IO error - " + str(e)
         return False, "Unknown Error occurred"
 
@@ -85,8 +85,8 @@ class FWForensic1394(object):
                 self._device.open()
             # The device requires time to settle before it can be used
             return True, "Valid"
-        except IOError, e:
-            print repr(e)
+        except IOError as e:
+            print (repr(e))
             return False, "Forensic1394 returned an exception: " + str(e)
         return False, "Unknown Error occurred"
 
@@ -185,8 +185,8 @@ class FirewireAddressSpace(addrspace.BaseAddressSpace):
                     # I'm not sure why, but sometimes readdata comes out longer than the requested size
                     # We just truncate it to the right length
                     output = output[:datstart - offset] + readdata[:datlen] + output[(datstart - offset) + datlen:]
-        except IOError, e:
-            print repr(e)
+        except IOError as e:
+            print (repr(e))
             raise RuntimeError("Failed to read from firewire device")
         self.as_assert(len(output) == length, "Firewire read lengths failed to match")
         return output

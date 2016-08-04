@@ -250,7 +250,7 @@ class UnixTimeStamp(obj.NativeType):
             if self.is_utc:
                 # Only do dt.replace when dealing with UTC
                 dt = dt.replace(tzinfo = timefmt.UTC())
-        except ValueError, e:
+        except ValueError as e:
             return obj.NoneObject("Datetime conversion failure: " + str(e))
         return dt
 

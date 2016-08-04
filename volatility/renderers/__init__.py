@@ -7,7 +7,7 @@ import types
 
 Column = collections.namedtuple('Column', ['index', 'name', 'type'])
 
-class TreePopulationError(StandardError):
+class TreePopulationError(Exception):
     """Exception class for accessing functions on an partially populated tree."""
     pass
 
@@ -94,7 +94,7 @@ class TreeGrid(object):
     and to create cycles.
     """
 
-    simple_types = set([int, long, str, float, bytes])
+    simple_types = set([int, str, float, bytes])
     path_sep = "|"
 
     def __init__(self, columns, generator):
@@ -256,7 +256,7 @@ class TreeGrid(object):
             accumulator = function(node, initial_accumulator)
         if children is not None:
             if sort_key is not None:
-                children = sorted(children, key = lambda (x, y): sort_key(x.values))
+                children = sorted(children, key = lambda x, y: sort_key(x.values))
             accumulator = self._visit(children, function, accumulator, sort_key)
         return accumulator
 
@@ -266,7 +266,7 @@ class TreeGrid(object):
             for n, children in list_of_children:
                 accumulator = function(n, accumulator)
                 if sort_key is not None:
-                    children = sorted(children, key = lambda (x, y): sort_key(x.values))
+                    children = sorted(children, key = lambda x, y: sort_key(x.values))
                 accumulator = self._visit(children, function, accumulator, sort_key)
         return accumulator
 

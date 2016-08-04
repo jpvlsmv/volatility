@@ -27,7 +27,7 @@ This file provides support for Windows 7.
 
 #pylint: disable-msg=C0111
 
-import windows
+import volatility.plugins.overlays.windows.windows as windows
 import volatility.obj as obj
 import volatility.debug as debug #pylint: disable-msg=W0611
 

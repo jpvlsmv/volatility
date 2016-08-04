@@ -70,7 +70,7 @@ class DLLDump(procdump.ProcDump):
                     mod_re = re.compile(self._config.REGEX, re.I)
                 else:
                     mod_re = re.compile(self._config.REGEX)
-            except re.error, e:
+            except re.error as e:
                 debug.error('Error parsing regular expression: %s' % e)
 
         for proc in data:

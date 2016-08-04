@@ -102,7 +102,7 @@ class linux_process_hollow(linux_pslist.linux_pslist):
                     if mem_buffer != None and disk_buffer != mem_buffer:
                         yield task, symname, full_address
                     elif mem_buffer == None:
-                        print "Function %s paged out in memory" % symname   
+                        print ("Function %s paged out in memory" % symname   )
      
     def render_text(self, outfd, data):
         self.table_header(outfd, [("Task", "16"),

@@ -67,7 +67,7 @@ configuration information:
    configuration
    
 """
-import ConfigParser
+import configparser
 import optparse
 import os
 import sys
@@ -81,7 +81,7 @@ class PyFlagOptionParser(optparse.OptionParser):
     def _process_args(self, largs, rargs, values):
         try:
             return optparse.OptionParser._process_args(self, largs, rargs, values)
-        except (optparse.BadOptionError, optparse.OptionValueError), err:
+        except (optparse.BadOptionError, optparse.OptionValueError) as err:
             if self.final:
                 raise err
 
@@ -177,7 +177,7 @@ class ConfObject(object):
 
         for f in self._filenames:
             try:
-                conf_parser = ConfigParser.ConfigParser()
+                conf_parser = configparser.ConfigParser()
                 conf_parser.read(f)
 
                 for k, v in conf_parser.items('DEFAULT'):
@@ -188,14 +188,14 @@ class ConfObject(object):
 
                     try:
                         v = eval(v, self.g_dict)
-                    except Exception, _e:
+                    except Exception as _e:
                         pass
 
                     ## update the configured options
                     self.cnf_opts[k] = v
 
             except IOError:
-                print "Unable to open {0}".format(f)
+                print( "Unable to open {0}".format(f))
 
         ConfObject._filename = filename
 
@@ -256,7 +256,7 @@ class ConfObject(object):
                         try:
                             opt.metavar = "{0}".format((getattr(self, opt.dest) or
                                                         opt.dest.upper()))
-                        except Exception, _e:
+                        except Exception as _e:
                             pass
 
                     self.optparser.print_help()

@@ -50,9 +50,9 @@ class RegistryApi(object):
         this is just in case we want to check our offsets and which hive(s) was/were chosen
         '''
         for item in self.all_offsets:
-            print "0x{0:x}".format(item), self.all_offsets[item]
+            print ("0x{0:x}".format(item), self.all_offsets[item])
         for item in self.current_offsets:
-            print 'current', "0x{0:x}".format(item), self.current_offsets[item]
+            print ('current', "0x{0:x}".format(item), self.current_offsets[item])
 
     def populate_offsets(self):
         '''

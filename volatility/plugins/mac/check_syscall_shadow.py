@@ -63,7 +63,7 @@ class mac_check_syscall_shadow(common.AbstractMacCommand):
                         op_sysent_ptr = obj.Object('Pointer', offset = (op.address + op.operands[1].disp + op.size), vm = self.addr_space)
  
                         if sysents_addr != op_sysent_ptr.v():
-                            print "not same: %x | %x" % (sysents_addr, op_sysent_ptr.v())
+                            print ("not same: %x | %x" % (sysents_addr, op_sysent_ptr.v()))
                             yield (op_sysent_ptr.v(), func, op)
  
                 elif model == "32bit":

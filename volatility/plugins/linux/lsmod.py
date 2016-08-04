@@ -157,7 +157,7 @@ class linux_moddump(linux_common.AbstractLinuxCommand):
                     mod_re = re.compile(self._config.REGEX, re.I)
                 else:
                     mod_re = re.compile(self._config.REGEX)
-            except re.error, e:
+            except re.error as e:
                 debug.error('Error parsing regular expression: {0}'.format(e))
                 
 
@@ -274,7 +274,7 @@ class linux_moddump(linux_common.AbstractLinuxCommand):
             sort_idx = sorted_ents[address]
 
             if name == ".symtab":
-                print "FIXING"
+                print ("FIXING")
                 str_section_data = self._fix_sym_table(module, sect_sa)
                 str_size = len(str_section_data)
                 size = str_size
@@ -302,14 +302,14 @@ class linux_moddump(linux_common.AbstractLinuxCommand):
                 size = 0x4000 # guess?
 
             if name == ".symtab":
-                print "FIXING 2"
+                print ("FIXING 2")
                 size         = str_size
                 section_data = str_section_data
             else:  
                 section_data = module.obj_vm.zread(address, size)
                 #print "reading %d bytes from %x for section %s : got %d" % (size, address, name, len(section_data))
 
-            print "adding section %s | %d with size %d | %d" % (name, sect_bytes, size, len(section_data))
+            print ("adding section %s | %d with size %d | %d" % (name, sect_bytes, size, len(section_data)))
             
             updated_sections.append((name, address, size, sect_bytes, section_data))
             
@@ -484,7 +484,7 @@ class linux_moddump(linux_common.AbstractLinuxCommand):
         
         first_name = False
 
-        print "walking %d syms to be fixed...." % module.num_symtab
+        print ("walking %d syms to be fixed...." % module.num_symtab)
 
         if self.addr_space.profile.metadata.get('memory_model', '32bit') == '64bit':
             sym_type     = "elf64_sym"
@@ -611,12 +611,12 @@ class linux_moddump(linux_common.AbstractLinuxCommand):
 
         strtab_idx = len(updated_sections) 
 
-        print "******************"
+        print ("******************")
 
         for (i, (name, address, size, file_off, sect_data)) in enumerate(updated_sections):
             section_headers = section_headers + _make_sect_header(name, address, size, file_off, strtab_idx, symtab_idx)
             
-            print "added section %30s with size %6d file offset %6d len(section_data): %6d"  % (name, size, file_off, len(section_data))
+            print ("added section %30s with size %6d file offset %6d len(section_data): %6d"  % (name, size, file_off, len(section_data)))
 
             section_data    = section_data + sect_data              
 
@@ -624,7 +624,7 @@ class linux_moddump(linux_common.AbstractLinuxCommand):
             last_sec_sz   = len(sect_data)
 
             if len(sect_data) != size:
-                print "BROKEN SIZE"
+                print ("BROKEN SIZE")
                 exit()
 
         # we need this section, but its not in memory

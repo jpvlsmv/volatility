@@ -31,7 +31,7 @@ import volatility.debug as debug
 import volatility.plugins.mac.common as common
 import volatility.plugins.mac.proc_maps as proc_maps
 import struct
-import WKdm
+import volatility.plugins.mac.WKdm as WKdm
 
 class mac_dump_maps(proc_maps.mac_proc_maps):
     """ Dumps memory ranges of process(es), optionally including pages in compressed swap """

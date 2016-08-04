@@ -52,7 +52,7 @@ def write_callback(option, _opt_str, _value, parser, *_args, **_kwargs):
                 option.action = "store_true"
                 parser.values.write = True
                 return
-        print "Write support disabled."
+        print ("Write support disabled.")
 
 class FileAddressSpace(addrspace.BaseAddressSpace):
     """ This is a direct file AS.

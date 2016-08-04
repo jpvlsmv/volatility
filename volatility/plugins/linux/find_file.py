@@ -123,7 +123,7 @@ class linux_find_file(linux_common.AbstractLinuxCommand):
            
             try: 
                 f = open(outfile, "wb")
-            except IOError, e:
+            except IOError as e:
                 debug.error("Unable to open output file (%s): %s" % (outfile, str(e)))
 
             for page in self.get_file_contents(inode):        

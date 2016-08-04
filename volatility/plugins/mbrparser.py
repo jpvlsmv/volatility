@@ -276,7 +276,7 @@ class MBRParser(commands.Command):
             if not all_zeros:
                 yield self._config.OFFSET, PARTITION_TABLE, boot_code
             else:
-                print "Not a valid MBR: Data all zeroed out"
+                print ("Not a valid MBR: Data all zeroed out")
         else:
             scanner = MBRScanner(needles = ['\x55\xaa'])
             for offset in scanner.scan(address_space):

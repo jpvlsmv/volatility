@@ -41,8 +41,8 @@ import binascii
 import os
 import volatility.poolscan as poolscan
 import sys
-reload(sys)
-sys.setdefaultencoding('utf8')
+#reload(sys)
+#sys.setdefaultencoding('utf8')
 
 class UnicodeString(basic.String):
     def __str__(self):
@@ -155,7 +155,7 @@ class MFT_FILE_RECORD(obj.CType):
 
     def get_full_path(self, fileinfo):
         if self.obj_vm._config.DEBUGOUT:
-            print "Building path for file {0}".format(fileinfo.get_name())
+            print ("Building path for file {0}".format(fileinfo.get_name()))
         parent = ""
         path = self.remove_unprintable(fileinfo.get_name()) or "(Null)"
         try:
@@ -207,7 +207,7 @@ class MFT_FILE_RECORD(obj.CType):
                 next_attr = None
             elif attr == "STANDARD_INFORMATION":
                 if self.obj_vm._config.DEBUGOUT:
-                    print "Found $SI"
+                    print ("Found $SI")
                 if not check or next_attr.STDInfo.is_valid():
                     attributes.append((attr, next_attr.STDInfo))
                 next_off = next_attr.STDInfo.obj_offset + next_attr.ContentSize
@@ -217,7 +217,7 @@ class MFT_FILE_RECORD(obj.CType):
                 next_attr = self.advance_one(next_off, mft_buff, end)
             elif attr == 'FILE_NAME':
                 if self.obj_vm._config.DEBUGOUT:
-                    print "Found $FN"
+                    print ("Found $FN")
                 self.add_path(next_attr.FileName)
                 if not check or next_attr.FileName.is_valid():
                     attributes.append((attr, next_attr.FileName))
@@ -228,7 +228,7 @@ class MFT_FILE_RECORD(obj.CType):
                 next_attr = self.advance_one(next_off, mft_buff, end)
             elif attr == "OBJECT_ID":
                 if self.obj_vm._config.DEBUGOUT:
-                    print "Found $ObjectId"
+                    print ("Found $ObjectId")
                 if next_attr.Header.NonResidentFlag == 1:
                     attributes.append((attr, "Non-Resident"))
                     next_attr = None
@@ -242,7 +242,7 @@ class MFT_FILE_RECORD(obj.CType):
                 next_attr = self.advance_one(next_off, mft_buff, end)
             elif attr == "DATA":
                 if self.obj_vm._config.DEBUGOUT:
-                    print "Found $DATA"
+                    print ("Found $DATA")
                 try:
                     if next_attr.Header and next_attr.Header.NameOffset > 0 and next_attr.Header.NameLength > 0:
                         adsname = ""
@@ -283,7 +283,7 @@ class MFT_FILE_RECORD(obj.CType):
                 next_attr = self.advance_one(next_off, mft_buff, end)
             elif attr == "ATTRIBUTE_LIST":
                 if self.obj_vm._config.DEBUGOUT:
-                    print "Found $AttributeList"
+                    print ("Found $AttributeList")
                 if next_attr.Header.NonResidentFlag == 1:
                     attributes.append((attr, "Non-Resident"))
                     next_attr = None
@@ -842,7 +842,7 @@ class MFTParser(common.AbstractWindowsCommand):
                 offsets.append((offset, mft_entry, mft_buff))
         else:
             scanner = poolscan.MultiPoolScanner(needles = ['FILE', 'BAAD'])
-            print "Scanning for MFT entries and building directory, this can take a while"
+            print ("Scanning for MFT entries and building directory, this can take a while")
             seen = []
             for _, offset in scanner.scan(address_space):
                 mft_buff = address_space.read(offset, self._config.ENTRYSIZE)
@@ -858,7 +858,7 @@ class MFTParser(common.AbstractWindowsCommand):
                     name = temp.FileName.get_name()
                 except struct.error:
                     if self._config.DEBUGOUT:
-                        print "Problem entry at offset:", hex(offset)
+                        print ("Problem entry at offset:", hex(offset))
                     continue
     
                 if (int(mft_entry.RecordNumber), name) in seen:
@@ -869,7 +869,7 @@ class MFTParser(common.AbstractWindowsCommand):
 
         for offset, mft_entry, mft_buff in offsets:
             if self._config.DEBUGOUT:
-                print "Processing MFT Entry at offset:", hex(offset)
+                print ("Processing MFT Entry at offset:", hex(offset))
             attributes = mft_entry.parse_attributes(mft_buff, not self._config.NOCHECK, self._config.ENTRYSIZE)
             yield offset, mft_entry, attributes
 

@@ -497,7 +497,7 @@ class _LDR_DATA_TABLE_ENTRY(obj.CType):
         
         try:
             data_dir = self.debug_dir()
-        except ValueError, why:
+        except ValueError as why:
             return obj.NoneObject(str(why))
 
         return obj.Object("_IMAGE_DEBUG_DIRECTORY", 
@@ -522,7 +522,7 @@ class _LDR_DATA_TABLE_ENTRY(obj.CType):
 
         try:
             data_dir = self.import_dir()
-        except ValueError, why:
+        except ValueError as why:
             raise StopIteration(why)
 
         i = 0
@@ -555,7 +555,7 @@ class _LDR_DATA_TABLE_ENTRY(obj.CType):
 
         try:
             data_dir = self.export_dir()
-        except ValueError, why:
+        except ValueError as why:
             raise StopIteration(why)
 
         expdir = obj.Object('_IMAGE_EXPORT_DIRECTORY',
@@ -592,7 +592,7 @@ class _IMAGE_DOS_HEADER(obj.CType):
 
         try:
             nt_header = self.get_nt_header()
-        except ValueError, ve:
+        except ValueError as ve:
             return obj.NoneObject("PE file failed initial sanity checks: {0}".format(ve))
 
         try:
@@ -940,7 +940,7 @@ class _IMAGE_RESOURCE_DIR_STRING_U(obj.CType):
                 length = 0
             data = self.obj_vm.read(self.Value.obj_offset, length)
             return data.decode("utf16", "ignore").encode("ascii", 'backslashreplace')
-        except Exception, _e:
+        except Exception as _e:
             return ''
 
 class _IMAGE_RESOURCE_DIRECTORY(obj.CType):

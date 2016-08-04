@@ -28,7 +28,7 @@ This file provides support for Windows Vista.
 
 #pylint: disable-msg=C0111
 
-import windows
+import volatility.plugins.overlays.windows.windows as windows
 import volatility.debug as debug #pylint: disable-msg=W0611
 import volatility.obj as obj
 

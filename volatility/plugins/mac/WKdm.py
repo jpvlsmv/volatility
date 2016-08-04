@@ -542,7 +542,7 @@ def main():
         t += w.WKdm_decompress(dest_buf, src_buf)
     total = time.time() - before
     
-    print "Python timing: " + str(NUMBER_OF_ITERATIONS / total) + " compression / decompression pairs per second."
+    print ("Python timing: " + str(NUMBER_OF_ITERATIONS / total) + " compression / decompression pairs per second.")
 
 
 if __name__ == "__main__":

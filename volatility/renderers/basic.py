@@ -9,24 +9,24 @@ class Bytes(bytes):
             return str.__new__(cls, "-")
         return str.__new__(cls, data.encode("hex"))
 
-class Address(long):
+class Address(int):
     """Integer class to allow renderers to differentiate between addresses and numbers"""
     def __new__(cls, number):
-        return long.__new__(cls, number)
+        return int.__new__(cls, number)
 
 
-class Address64(long):
-    """Integer class to allow renderers to differentiate between addresses and numbers"""
-
-    def __new__(cls, number):
-        return long.__new__(cls, number)
-
-
-class Hex(long):
+class Address64(int):
     """Integer class to allow renderers to differentiate between addresses and numbers"""
 
     def __new__(cls, number):
-        return long.__new__(cls, number)
+        return int.__new__(cls, number)
+
+
+class Hex(int):
+    """Integer class to allow renderers to differentiate between addresses and numbers"""
+
+    def __new__(cls, number):
+        return int.__new__(cls, number)
 
 
 class Renderer(object):

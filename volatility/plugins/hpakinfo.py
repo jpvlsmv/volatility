@@ -49,6 +49,6 @@ class HPAKExtract(HPAKInfo):
             
         data.convert_to_raw(outfd)
 
-        print "Compressed: {0}".format("Yes" if data.physmem.Compressed == 1 else "No")
-        print "Compressed Size: {0:#x}".format(data.physmem.CompressedSize)
-        print "Final Size: {0:#x}".format(data.physmem.Length)
+        print ("Compressed: {0}".format("Yes" if data.physmem.Compressed == 1 else "No"))
+        print ("Compressed Size: {0:#x}".format(data.physmem.CompressedSize))
+        print ("Final Size: {0:#x}".format(data.physmem.Length))

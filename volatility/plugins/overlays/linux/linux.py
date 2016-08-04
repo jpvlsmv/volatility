@@ -248,7 +248,7 @@ def LinuxProfileFactory(profpkg):
                             # of the newly imported types need merging
                         else:
                             done = True
-            except KeyError, e:
+            except KeyError as e:
                 import pdb
                 pdb.set_trace()
                 raise exceptions.VolatilityException("Inconsistent linux profile - unable to look up " + str(e))
@@ -940,7 +940,7 @@ class module_struct(obj.CType):
                     val = 'Y'
 
         else:
-            print "Unknown get_fn: {0:#x}".format(getfn)
+            print ("Unknown get_fn: {0:#x}".format(getfn))
             return None
 
         return val
@@ -1789,7 +1789,7 @@ class task_struct(obj.CType):
             process_as = self.obj_vm.__class__(
                 self.obj_vm.base, self.obj_vm.get_config(), dtb = directory_table_base)
 
-        except AssertionError, _e:
+        except AssertionError as _e:
             return obj.NoneObject("Unable to get process AS")
 
         process_as.name = "Process {0}".format(self.pid)
@@ -2098,7 +2098,7 @@ class task_struct(obj.CType):
             # convert the integer as little endian 
             try:
                 data = struct.pack("<I", sec)
-            except struct.error, e:
+            except struct.error as e:
                 # in case we exceed 0 <= number <= 4294967295
                 return 0
 

@@ -22,7 +22,7 @@
 """
 
 import volatility.obj as obj
-import common
+import volatility.plugins.mac.common as common
 import volatility.commands as commands
 import distorm3
 import volatility.plugins.mac.check_sysctl as check_sysctl

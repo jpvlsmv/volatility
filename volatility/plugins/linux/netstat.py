@@ -43,7 +43,7 @@ class linux_netstat(linux_pslist.linux_pslist):
 
         if not self.addr_space.profile.has_type("inet_sock"):
             # ancient (2.6.9) centos kernels do not have inet_sock in debug info
-            raise AttributeError, "Given profile does not have inet_sock, please file a bug if the kernel version is > 2.6.11"
+            raise AttributeError( "Given profile does not have inet_sock, please file a bug if the kernel version is > 2.6.11")
 
         for task in data:
             for ents in task.netstat():

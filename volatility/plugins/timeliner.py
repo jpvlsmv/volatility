@@ -176,7 +176,7 @@ class TimeLiner(common.AbstractWindowsCommand):
                     return "0|{0}|0|---------------|0|0|0|{1}|{1}|{1}|{1}\n".format(header, start.v())
                 else:
                     return "0|{0}|0|---------------|0|0|0|{1}|{2}|{1}|{1}\n".format(header, start.v(), end.v())
-            except ValueError, ve:
+            except ValueError as  ve:
                 return "0|{0}|0|---------------|0|0|0|{1}|{1}|{1}|{1}\n".format(header, 0)
         else:
             try:
@@ -184,7 +184,7 @@ class TimeLiner(common.AbstractWindowsCommand):
                     return "{0}|{1}".format(start, header)
                 else:
                     return "{0}|{1} End: {2}".format(start, header, end)
-            except ValueError, ve:
+            except ValueError as ve:
                 return "{0}|{1}".format(-1, header)
                 
     def calculate(self):
@@ -303,7 +303,7 @@ class TimeLiner(common.AbstractWindowsCommand):
                         try:
                             pe_file = obj.Object("_IMAGE_DOS_HEADER", offset = 0, vm = bufferas)
                             header = pe_file.get_nt_header()
-                        except ValueError, ve: 
+                        except ValueError as ve: 
                             continue
                         line = "[{7}PE HEADER 32-bit (dll)]{0} {4}{0} Process: {1}/PID: {2}/PPID: {3}/Process POffset: 0x{5:08x}/DLL Base: 0x{6:08x}".format(
                             "" if body else "|",
@@ -445,7 +445,7 @@ class TimeLiner(common.AbstractWindowsCommand):
                 try:
                     pe_file = obj.Object("_IMAGE_DOS_HEADER", offset = mod_base, vm = space)
                     header = pe_file.get_nt_header()
-                except ValueError, ve: 
+                except ValueError as ve: 
                     continue
                 line = "[{3}PE HEADER (module)]{0} {1}{0} Base: {2:#010x}".format(
                         "" if body else "|",

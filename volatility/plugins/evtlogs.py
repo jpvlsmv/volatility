@@ -270,7 +270,7 @@ class EvtLogs(common.AbstractWindowsCommand):
                 fh = open(os.path.join(self._config.DUMP_DIR, ofname), 'wb')
                 fh.write(buf)
                 fh.close()
-                print 'Saved raw .evt file to {0}'.format(ofname)
+                print ('Saved raw .evt file to {0}'.format(ofname))
             for fields in self.parse_evt_info(name, buf):
                 yield (0, [str(fields[0]), str(fields[1]), str(fields[2]), str(fields[3]), str(fields[4]), str(fields[5]), str(fields[6])])
 

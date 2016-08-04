@@ -188,7 +188,7 @@ def get_new_sock_pipe_path(task, filp):
             pre_name = _get_path_file(task, filp)
 
         else:
-            print "no handler for %s" % sym
+            print ("no handler for %s" % sym)
             pre_name = "<BAD>"
 
         ret = "%s:[%d]" % (pre_name, dentry.d_inode.i_ino)

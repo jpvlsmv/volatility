@@ -83,7 +83,7 @@ windows_overlay = {
     # which is the value loaded into CR3. The second one, according to procobj.c 
     # of the wrk-v1.2, contains the PTE that maps something called hyper space. 
     '_KPROCESS' : [ None, {
-    'DirectoryTableBase' : [ None, ['unsigned long']],
+    'DirectoryTableBase' : [ None, ['unsigned int']],
     }],
 
     '_IMAGE_SECTION_HEADER' : [ None, {
@@ -99,7 +99,7 @@ windows_overlay = {
     }],
 
     '_DBGKD_GET_VERSION64' : [  None, {
-    'DebuggerDataList' : [ None, ['pointer', ['unsigned long']]],
+    'DebuggerDataList' : [ None, ['pointer', ['unsigned int']]],
     }],
 
     '_CM_KEY_NODE' : [ None, {
@@ -143,7 +143,7 @@ windows_overlay = {
     }],
 
     '_SID' : [ None, {
-    'SubAuthority' : [ None, ['array', lambda x: x.SubAuthorityCount, ['unsigned long']]],
+    'SubAuthority' : [ None, ['array', lambda x: x.SubAuthorityCount, ['unsigned int']]],
     }],
 
     '_CLIENT_ID': [ None, {
@@ -298,7 +298,7 @@ class WinTimeStamp(obj.NativeType):
             if self.is_utc:
                 # Only do dt.replace when dealing with UTC
                 dt = dt.replace(tzinfo = timefmt.UTC())
-        except ValueError, e:
+        except ValueError as e:
             return obj.NoneObject("Datetime conversion failure: " + str(e))
         return dt
 
@@ -333,7 +333,7 @@ class DosDate(obj.NativeType):
             if self.is_utc:
                 # Only do dt.replace when dealing with UTC
                 dt = dt.replace(tzinfo = timefmt.UTC())
-        except ValueError, e:
+        except ValueError as e:
             return obj.NoneObject("Datetime conversion failure: " + str(e))
         return dt
 
@@ -401,7 +401,7 @@ class _EPROCESS(obj.CType, ExecutiveObjectMixin):
 
         try:
             process_as = self.obj_vm.__class__(self.obj_vm.base, self.obj_vm.get_config(), dtb = directory_table_base)
-        except AssertionError, _e:
+        except AssertionError as _e:
             return obj.NoneObject("Unable to get process AS")
 
         process_as.name = "Process {0}".format(self.UniqueProcessId)
@@ -978,7 +978,7 @@ class VolatilityIA32ValidAS(obj.VolatilityMagic):
                 yield True
                 raise StopIteration
 
-        except addrspace.ASAssertionError, _e:
+        except addrspace.ASAssertionError as _e:
             pass
         debug.debug("Failed to pass the Moyix Valid IA32 AS test", 3)
 
@@ -1142,11 +1142,11 @@ class _POOL_HEADER(obj.CType):
         else:
             return self.get_object_bottom_up(struct_name, object_type, skip_type_check)
 
-import crash_vtypes
-import hibernate_vtypes
-import kdbg_vtypes
-import tcpip_vtypes
-import ssdt_vtypes
+import volatility.plugins.overlays.windows.crash_vtypes 
+import volatility.plugins.overlays.windows.hibernate_vtypes 
+import volatility.plugins.overlays.windows.kdbg_vtypes 
+import volatility.plugins.overlays.windows.tcpip_vtypes 
+import volatility.plugins.overlays.windows.ssdt_vtypes 
 
 class WindowsOverlay(obj.ProfileModification):
     conditions = {'os': lambda x: x == 'windows'}

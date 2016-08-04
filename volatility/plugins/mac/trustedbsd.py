@@ -30,7 +30,7 @@ import volatility.plugins.mac.common as common
 from volatility.renderers import TreeGrid
 from volatility.renderers.basic import Address
 
-from lsmod import mac_lsmod as mac_lsmod
+from volatility.plugins.mac.lsmod import mac_lsmod
 
 class mac_trustedbsd(mac_lsmod):
     """ Lists malicious trustedbsd policies """

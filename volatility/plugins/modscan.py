@@ -29,7 +29,7 @@ This module implements the fast module scanning
 
 #pylint: disable-msg=C0111
 
-import common
+import volatility.plugins.common as common
 from volatility import renderers
 import volatility.plugins.filescan as filescan
 import volatility.obj as obj

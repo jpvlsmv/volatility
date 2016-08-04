@@ -48,4 +48,4 @@ class Win10Cookie(common.AbstractWindowsCommand):
 
     def render_text(self, outfd, data):
         for cookie in data:
-            print cookie
+            print (cookie)

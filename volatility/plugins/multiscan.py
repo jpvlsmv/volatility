@@ -56,4 +56,4 @@ class MultiScan(common.AbstractScanCommand):
 
     def render_text(self, outfd, data):
         for objct in data:
-            print objct
+            print (objct)

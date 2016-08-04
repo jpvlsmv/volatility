@@ -1,4 +1,4 @@
-import StringIO
+from io import StringIO
 from volatility.renderers.basic import Renderer
 
 try:
